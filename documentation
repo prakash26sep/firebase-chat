@@ -1,0 +1,274 @@
+
+Add Firebase to your JavaScript project
+Follow this guide to use the Firebase JavaScript SDK in your web app or as a client for end-user access, for example, in a Node.js desktop or IoT application.
+
+To set up administrative access from privileged environments (such as servers) set up the Firebase Admin SDK instead.
+Prerequisites
+Install your preferred editor or IDE.
+
+Sign into Firebase using your Google account.
+
+If you don't already have a JavaScript project and just want to try out a Firebase product, you can download one of our quickstart samples.
+
+Step 1: Create a Firebase project
+Before you can add Firebase to your JavaScript app, you need to create a Firebase project to connect to your app.
+
+Note: If you already have a Firebase-registered mobile app and it shares Firebase resources with your JavaScript app, skip this step and configure your JavaScript app to use the same project as your mobile app.
+Visit Understand Firebase Projects to learn more about Firebase projects and best practices for adding apps to projects.
+
+Create a Firebase project
+
+Step 2: Register your app with Firebase
+After you have a Firebase project, you can add your web app to it.
+
+Visit Understand Firebase Projects to learn more about best practices and considerations for adding apps to a Firebase project.
+
+In the center of the Firebase console's project overview page, click the Web icon (plat_web) to launch the setup workflow.
+
+If you've already added an app to your Firebase project, click Add app to display the platform options.
+
+Enter your app's nickname.
+This nickname is an internal, convenience identifier and is only visible to you in the Firebase console.
+
+(Optional) Set up Firebase Hosting for your web app.
+
+You can set up Firebase Hosting now or later. You can also link your Firebase Web App to a Hosting site at any time in your Project settings.
+
+If you choose to set up Hosting up now, select a site from the dropdown list to link to your Firebase Web App.
+
+This list displays your project's default Hosting site and any other sites that you've set up in your project.
+
+Any site that you've already linked to a Firebase Web App is unavailable for additional linking. Each Hosting site can only be linked to a single Firebase Web App.
+
+Note: Firebase Hosting is not required for you to use Firebase products with your web app.
+Click Register app.
+
+Step 3: Add Firebase SDKs and initialize Firebase
+You can add any of the supported Firebase products to your app.
+
+How you add Firebase SDKs to your app depends on whether you've chosen to use Firebase Hosting for your app, what tooling you're using with your app (like a bundler), or if you're configuring a Node.js app.
+
+From Hosting URLs
+From the CDN
+Using module bundlers
+Node.js apps
+When you use Firebase Hosting, you can configure your app to load the Firebase JavaScript SDK libraries dynamically from reserved URLs. Learn more about adding SDKs via reserved Hosting URLs.
+
+With this setup option, after you deploy to Firebase, your app automatically pulls the Firebase configuration object from the Firebase project to which you've deployed. You can deploy the same codebase to multiple Firebase projects, but you don't have to track the Firebase configuration that you're using for firebase.initializeApp().
+
+This setup option also works for testing your web app locally.
+
+Note: You aren't required to use this option if you use Firebase Hosting, but this option does offer a convenience for managing your Firebase configuration when initializing Firebase.
+To include only specific Firebase products (for example, Analytics, Authentication, or Cloud Firestore), add the following scripts to the bottom of your <body> tag, but before you use any Firebase services:
+
+<body>
+  <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="/__/firebase/7.14.1/firebase-app.js"></script>
+
+  <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+  <script src="/__/firebase/7.14.1/firebase-analytics.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="/__/firebase/7.14.1/firebase-auth.js"></script>
+  <script src="/__/firebase/7.14.1/firebase-firestore.js"></script>
+</body>
+
+Include the entire Firebase JavaScript SDK, rather than individual SDKs (not recommended for production apps)
+
+
+
+Initialize Firebase in your app (no need to include your Firebase config object when using reserved Hosting URLs):
+
+<body>
+  <!-- Previously loaded Firebase SDKs -->
+
+  <!-- Initialize Firebase -->
+  <script src="/__/firebase/init.js"></script>
+</body>
+
+Firebase config object
+To initialize Firebase in your app, you need to provide your app's Firebase project configuration.
+
+If you use reserved Hosting URLs, your Firebase config is automatically pulled from your Firebase project, so you don't need to explicitly provide the object in your code.
+
+If you enable new Firebase services in your Firebase project after creating your Firebase Web App (especially Cloud Storage or Google Analytics), make sure to update your Firebase config object in your app or, if you're using reserved URLs, redeploy to your site.
+
+Note: The Firebase config object contains unique, but non-secret identifiers for your Firebase project.
+Visit Understand Firebase Projects to learn more about this config object.
+var firebaseConfig = {
+  apiKey: "api-key",
+  authDomain: "project-id.firebaseapp.com",
+  databaseURL: "https://project-id.firebaseio.com",
+  projectId: "project-id",
+  storageBucket: "project-id.appspot.com",
+  messagingSenderId: "sender-id",
+  appId: "app-id",
+  measurementId: "G-measurement-id",
+};
+
+At any time, you can obtain your Firebase config object.
+
+Step 4: (Optional) Install CLI and deploy to Firebase Hosting
+If you linked your Firebase Web App with a Firebase Hosting site, you can deploy your site's content and configuration now (when setting up your Web App) or anytime later.
+
+To deploy to Firebase, you'll use the Firebase CLI, a command-line tool.
+
+Visit the Firebase CLI documentation to learn how to install the CLI or update to its latest version.
+
+Initialize your Firebase project. Run the following command from the root of your local app directory:
+
+firebase init
+
+What does this initialization command do?
+
+Deploy your content and hosting configuration to Firebase Hosting.
+
+Default Hosting site
+Non-default Hosting site
+By default, every Firebase project has free subdomains on the web.app and firebaseapp.com domains (project-id.web.app and project-id.firebaseapp.com).
+
+Deploy to your site. Run the following command from your app's root directory:
+
+firebase deploy
+
+View your site at either of your default sites:
+
+project-id.web.app
+project-id.firebaseapp.com
+Step 5: Access Firebase in your app
+The Firebase JavaScript SDK supports the following Firebase products. Each product is optional and can be accessed from the firebase namespace.
+
+Learn about the available methods in the Firebase JavaScript reference documentation.
+
+Firebase product	Namespace	Web	Node.js
+Analytics	firebase.analytics()		
+Authentication	firebase.auth()		
+Cloud Firestore	firebase.firestore()		
+Cloud Functions for Firebase Client SDK	firebase.functions()		
+Cloud Messaging	firebase.messaging()		
+Cloud Storage	firebase.storage()		
+Performance Monitoring (beta release)	firebase.performance()		
+Realtime Database	firebase.database()		
+Remote Config (beta release)	firebase.remoteConfig()		
+Available libraries
+Available Firebase JS SDKs (from reserved Hosting URLs)
+Available Firebase JS SDKs (from the CDN)
+Available Firebase JS SDKs (using bundler with modules)
+Available Firebase JS SDKs (modules for Node.js)
+Additional setup options
+Delay loading of Firebase SDKs (from CDN)
+You can delay the inclusion of the Firebase SDKs until the entire page has loaded.
+
+Add a defer flag to each script tag for the Firebase SDKs, then defer the initialization of Firebase using a second script, for example:
+
+<script defer src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+
+<script defer src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+
+// ...
+
+<script defer src="./init-firebase.js"></script>
+
+Create an init-firebase.js file, then include the following in the file:
+
+// TODO: Replace the following with your app's Firebase project configuration
+var firebaseConfig = {
+  // ...
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+Use multiple Firebase projects in a single app
+In most cases, you only have to initialize Firebase in a single, default app. You can access Firebase from that app in two equivalent ways:
+
+// Initialize Firebase with a "default" Firebase project
+var defaultProject = firebase.initializeApp(firebaseConfig);
+
+console.log(defaultProject.name);  // "[DEFAULT]"
+
+// Option 1: Access Firebase services via the defaultProject variable
+var defaultStorage = defaultProject.storage();
+var defaultFirestore = defaultProject.firestore();
+
+// Option 2: Access Firebase services using shorthand notation
+defaultStorage = firebase.storage();
+defaultFirestore = firebase.firestore();
+
+Sometimes, though, you need to access multiple Firebase projects at the same time. For example, you might want to read data from the database of one Firebase project but store files in a different Firebase project. Or you might want to authenticate one project while keeping a second project unauthenticated.
+
+The Firebase JavaScript SDK allows you to initialize and use multiple Firebase projects in a single app at the same time, with each project using its own Firebase configuration information.
+
+Note: Each Firebase project has its own Firebase configuration and authentication state.
+// Initialize Firebase with a default Firebase project
+firebase.initializeApp(firebaseConfig);
+
+// Initialize Firebase with a second Firebase project
+var otherProject = firebase.initializeApp(otherProjectFirebaseConfig, "other");
+
+console.log(firebase.app().name);  // "[DEFAULT]"
+console.log(otherProject.name);    // "otherProject"
+
+// Use the shorthand notation to access the default project's Firebase services
+var defaultStorage = firebase.storage();
+var defaultFirestore = firebase.firestore();
+
+// Use the otherProject variable to access the second project's Firebase services
+var otherStorage = otherProject.storage();
+var otherFirestore = otherProject.firestore();
+
+Run a local web server for development
+If you're building a web app, some parts of the Firebase JavaScript SDK require that you serve your web app from a server rather than from the local filesystem. You can use the Firebase CLI to run a local server.
+
+If you already set up Firebase Hosting for your app, you might have already completed several of the steps below.
+
+To serve your web app, you'll use the Firebase CLI, a command-line tool.
+
+Visit the Firebase CLI documentation to learn how to install the CLI or update to its latest version.
+
+Initialize your Firebase project. Run the following command from the root of your local app directory:
+
+firebase init
+
+What does this initialization command do?
+
+Start the local server for development. Run the following command from the root of your local app directory:
+
+firebase serve
+
+Next steps
+Learn about Firebase:
+
+Explore sample Firebase apps.
+
+Get hands-on experience with the Firebase Web Codelab.
+
+Explore the open source code in GitHub.
+
+Review the supported environments for the Firebase JavaScript SDK.
+
+Speed up your development with additional Firebase-maintained open source libraries, like AngularFire, RxFire, and FirebaseUI for web.
+
+Prepare to launch your app:
+
+Set up budget alerts for your project in the GCP console.
+Monitor your Usage and billing dashboard in the Firebase console.
+Review the Firebase launch checklist.
+Add Firebase services to your app:
+
+Host your app with Firebase Hosting.
+
+Set up a user authentication flow with Authentication.
+
+Store data, like user information, with Cloud Firestore or Realtime Database.
+
+Store files, like photos and videos, with Cloud Storage.
+
+Gain insight into your app's performance issues with Performance Monitoring.
+
+Trigger backend code that runs in a secure environment with Cloud Functions.
+
+Send notifications with Cloud Messaging.
