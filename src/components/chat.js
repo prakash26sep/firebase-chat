@@ -99,6 +99,19 @@ const style = makeStyles(theme => createStyles({
     },
     userid: {
         color: 'purple'
+    },
+    unread: {
+        color: 'green'
+    },
+    centers: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center'
+    },
+    head: {
+        color: 'black'
     }
 }));
 
@@ -122,7 +135,14 @@ function Chat() {
 
     const classes = style();
     const chats = useChat();
-    console.log(chats);
+    let usersList = [];
+    chats.map(val => {
+        usersList.push(val.name);
+    });
+    let newUsersList = [...new Set(usersList)]
+
+    console.log(newUsersList);
+    // console.log(chats);
     let count = 0;
     chats.map(val => {
         if (val.hasRead === false) {
@@ -163,22 +183,32 @@ function Chat() {
                         <ChatBox email={userEmailid} />
                     </div>
                 </Fade>
+
             </Modal>
             <div className={classes.heading}><h2>Welcome to Firebase Chat</h2>
-                <div className={classes.userid}>{userEmailid}</div></div>
+                <div className={classes.userid}>Logged User: {userEmailid}</div></div><br /><br /><br />
+
+
+            <div className={classes.centers}>
+                <div className={classes.head}>List of Users</div><br />
+                <div className={classes.userid}>{newUsersList.map(val => {
+                    return <div>{val}</div>
+                })}</div>
+            </div>
 
             <div className={classes.main}>
                 <div className={classes.chatImgDiv}>
                     <img src="chat.jpg" alt="chat" className={classes.chatImg} />
                 </div>
                 <div>
+                    <div><img src="chat.png" alt="chat" /></div>
                     <div>
                         Click to Start Chat
                     </div>
                     <div className={classes.chatDiv}>
                         <div className={classes.openModal} ><div onClick={handleOpen} className={classes.center}>Start Chatting</div></div>
                         <div>Total Messages: {chats.length}</div>
-                        <div>Unread  Messages: {count}</div>
+                        <div className={classes.unread}>Unread  Messages: {count}</div>
                         {/* <div className={classes.openModal} >Name: Naman<div onClick={handleOpen} className={classes.center}>Start Chatting</div></div> */}
                     </div>
                 </div>

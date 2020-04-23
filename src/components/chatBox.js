@@ -67,8 +67,8 @@ const style = makeStyles(theme => createStyles({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        marginLeft: '30px',
-        margin: '5px 0',
+        marginRight: '30px',
+        margin: '10px 4px',
         borderRadius: '5px'
     },
     chatTwo: {
@@ -78,8 +78,8 @@ const style = makeStyles(theme => createStyles({
         color: 'black',
         flexDirection: 'column',
         alignItems: 'center',
-        marginRight: '30px',
-        margin: '5px 0',
+        marginLeft: '30px',
+        margin: '10px 4px',
         borderRadius: '5px'
     },
 
@@ -87,7 +87,12 @@ const style = makeStyles(theme => createStyles({
         display: 'flex',
         justifyContent: 'space-between',
         width: '90%',
-        margin: 'auto'
+        margin: 'auto',
+        [theme.breakpoints.down('sm')]: {
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
+        }
     },
     sendDiv: {
         display: 'flex',
@@ -96,10 +101,18 @@ const style = makeStyles(theme => createStyles({
     msg: {
         color: 'purple',
         display: 'flex',
+        flexWrap: 'wrap',
+
         justifyContent: 'space-between',
         padding: '3px',
         width: '90%',
-        margin: 'auto'
+        margin: 'auto',
+        [theme.breakpoints.down('sm')]: {
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+
+        }
 
     },
     grey: {
@@ -114,6 +127,16 @@ const style = makeStyles(theme => createStyles({
         },
         borderRadius: '3px'
     },
+    blockButton: {
+        color: 'white',
+        backgroundColor: 'red',
+        padding: '2px 5px',
+        '&:hover': {
+            cursor: 'pointer'
+        },
+        borderRadius: '3px',
+        marginLeft: '2px'
+    },
     msgRight: {
         display: 'flex',
         '&>div': {
@@ -123,7 +146,11 @@ const style = makeStyles(theme => createStyles({
     },
     blue: {
         color: 'blue'
-    }
+    },
+    block: {
+        display: 'flex',
+    },
+
 
 }));
 
@@ -139,11 +166,22 @@ function useChat() {
                 ...doc.data()
             }))
 
-            setChat(newChat);
+            let sortedChat = newChat.sort(sortt);
+
+            function sortt(a, b) {
+                var dateA = a.time;
+                var dateB = b.time;
+                return dateA > dateB ? 1 : -1;
+            };
+
+            console.log(sortedChat)
+
+            setChat(sortedChat);
         })
 
     }, [])
-    return chat
+
+    return chat;
 }
 
 function ChatBox(props) {
@@ -172,8 +210,19 @@ function ChatBox(props) {
             name: email,
             message: message,
             time: new Date().toLocaleString(),
-            hasRead: false
+            hasRead: false,
         })
+    }
+
+    const blockChat = () => {
+        if (document.getElementById('block').innerHTML === 'Block') {
+            document.getElementById('messageInput').disabled = true;
+            document.getElementById('block').innerHTML = 'Unblock'
+        }
+        else {
+            document.getElementById('messageInput').disabled = false;
+            document.getElementById('block').innerHTML = 'Block'
+        }
     }
 
     const deleteMessage = (e) => {
@@ -210,7 +259,7 @@ function ChatBox(props) {
 
         if (chat.name === email) {
             return <div className={classes.deleteButton} onClick={deleteMessage} id={chat.id}>
-                <div>Delete</div>
+                Delete
             </div>;
         }
     }
@@ -242,7 +291,6 @@ function ChatBox(props) {
                     <div className={classes.msgRight}>
                         <div>{checkSeen(chat)}</div>
                         {checkDelete(chat)}
-
                     </div>
                 </div>
                 <div className={classes.chatInfo}>
@@ -255,18 +303,12 @@ function ChatBox(props) {
     }
 
 
-
-
-
-
-
-
     return (
         <React.Fragment>
             <div className={classes.chatBoxMain}>
                 <div className={classes.chatHeading}>
                     <div>Chat</div>
-                    <div onClick={deleteChat} className={classes.deleteButton}>Delete Chat </div>
+                    <div className={classes.block}><div onClick={deleteChat} className={classes.deleteButton}>Delete Chat </div><div id="block" onClick={blockChat} className={classes.blockButton}>Block</div></div>
                 </div>
 
                 {chats.map((chat) => {
@@ -277,7 +319,7 @@ function ChatBox(props) {
 
 
                 <div className={classes.sendDiv}>
-                    <input className={classes.inputMessage} value={message} onChange={e => setMessage(e.currentTarget.value)} type="text" placeholder="Your message" />
+                    <input id="messageInput" className={classes.inputMessage} value={message} onChange={e => setMessage(e.currentTarget.value)} type="text" placeholder="Your message" />
                     <span onClick={sendMessage} className={classes.send}> Send</span>
                 </div>
             </div>
