@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 //import logo from './logo.svg';
-// import './App.css';
+import '../App.css';
 // import Navigation from './navigation/navigation';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -22,7 +22,7 @@ const style = makeStyles(theme => createStyles({
         marginTop: '50px',
         alignItems: 'center',
         textAlign: 'center',
-        padding: '100px 30px',
+        // padding: '100px 30px',
         [theme.breakpoints.down('sm')]: {
             flexDirection: 'column',
             justifyContent: 'center',
@@ -30,13 +30,15 @@ const style = makeStyles(theme => createStyles({
         },
         border: '2px solid grey',
         borderRadius: '5px',
-        justifyContent: 'space-around'
+        justifyContent: 'space-between',
+        fontFamily: 'monospace',
+        fontSize: '21px'
     },
     chatDiv: {
         marginTop: '20px',
         color: 'purple',
         '&>div': {
-            margin: '10px',
+            margin: 'auto',
 
         }
     },
@@ -80,35 +82,65 @@ const style = makeStyles(theme => createStyles({
     openModal: {
         border: '1px solid black',
         padding: '10px',
-        borderRadius: '5px'
+        borderRadius: '5px',
+        width: '38%',
+        marginBottom: '10px'
     },
     chatImg: {
-        width: '50%',
+        width: '100%',
         borderRadius: '5px',
         border: '2px solid grey'
         // margin: 'auto'
     },
     chatImgDiv: {
-        width: '70%',
+        width: '50%',
         borderRadius: '5px'
     },
     heading: {
-        width: '50%',
+        width: '90%',
         margin: 'auto',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: 'monospace',
+        fontSize: '20px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '10px',
+        [theme.breakpoints.down('sm')]: {
+            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center'
+
+        }
     },
     userid: {
-        color: 'purple'
+        color: 'purple',
+        fontFamily: 'monospace',
+        fontSize: '17px'
     },
     unread: {
         color: 'green'
+    },
+    mainRight: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '30%',
+        margin: 'auto'
     },
     centers: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: 'monospace',
+        fontSize: '17px',
+        '&>div': {
+            padding: '5px 0'
+        }
+    },
+    totalMsg: {
+        paddingTop: '30px'
     },
     head: {
         color: 'black'
@@ -185,29 +217,39 @@ function Chat() {
                 </Fade>
 
             </Modal>
-            <div className={classes.heading}><h2>Welcome to Firebase Chat</h2>
-                <div className={classes.userid}>Logged User: {userEmailid}</div></div><br /><br /><br />
+
+            <div className={classes.heading}><div><h2>Welcome to Firebase Chat</h2></div>
+                <div className={classes.userid}>Logged User: {userEmailid}</div>
+            </div><br />
 
 
             <div className={classes.centers}>
-                <div className={classes.head}>List of Users</div><br />
-                <div className={classes.userid}>{newUsersList.map(val => {
-                    return <div>{val}</div>
-                })}</div>
+                <table id="members">
+                    <tr>
+                        <th>List of Users</th>
+                    </tr>
+
+                    {newUsersList.map(val => {
+                        return <tr>
+                            <td>{val}</td>
+                        </tr>
+                    })}</table>
+
+
             </div>
 
             <div className={classes.main}>
                 <div className={classes.chatImgDiv}>
                     <img src="chat.jpg" alt="chat" className={classes.chatImg} />
                 </div>
-                <div>
+                <div className={classes.mainRight}>
                     <div><img src="chat.png" alt="chat" /></div>
                     <div>
                         Click to Start Chat
                     </div>
                     <div className={classes.chatDiv}>
                         <div className={classes.openModal} ><div onClick={handleOpen} className={classes.center}>Start Chatting</div></div>
-                        <div>Total Messages: {chats.length}</div>
+                        <div className={classes.totalMsg}>Total Messages: {chats.length}</div>
                         <div className={classes.unread}>Unread  Messages: {count}</div>
                         {/* <div className={classes.openModal} >Name: Naman<div onClick={handleOpen} className={classes.center}>Start Chatting</div></div> */}
                     </div>

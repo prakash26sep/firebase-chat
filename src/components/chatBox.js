@@ -40,7 +40,8 @@ const style = makeStyles(theme => createStyles({
         textAlign: 'center',
         display: 'flex',
         justifyContent: 'space-between',
-        padding: '3px'
+        padding: '7px',
+        alignItems: 'center'
     },
     chatBoxMain: {
         // margin: '10px 0',
@@ -63,18 +64,19 @@ const style = makeStyles(theme => createStyles({
         width: '100%'
     },
     chatOne: {
-        border: '1px solid black',
+        // border: '1px solid black',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         marginRight: '30px',
         margin: '10px 4px',
-        borderRadius: '5px'
+        borderRadius: '5px',
+        backgroundColor: '#ebebeb'
     },
     chatTwo: {
-        border: '1px solid black',
+
         display: 'flex',
-        backgroundColor: '#e3e3e3',
+        backgroundColor: '#d4d4d4',
         color: 'black',
         flexDirection: 'column',
         alignItems: 'center',
@@ -96,7 +98,10 @@ const style = makeStyles(theme => createStyles({
     },
     sendDiv: {
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        // position: 'fixed',
+        // bottom: '20px',
+        // width: '80%'
     },
     msg: {
         color: 'purple',
@@ -150,6 +155,11 @@ const style = makeStyles(theme => createStyles({
     block: {
         display: 'flex',
     },
+    dustbin: {
+        '&:hover': {
+            cursor: 'pointer'
+        }
+    }
 
 
 }));
@@ -248,19 +258,18 @@ function ChatBox(props) {
     const checkSeen = (chat) => {
 
         if (chat.hasRead === false) {
-            return <span>Unseen</span>;
+            return <span><img alt="seen" src="seen.png" /></span>;
         }
         else {
-            return <span className={classes.blue}>Seen</span>
+            return <span className={classes.blue}><img alt="seen" src="double-check.png" /></span>
         }
     }
 
     const checkDelete = (chat) => {
 
         if (chat.name === email) {
-            return <div className={classes.deleteButton} onClick={deleteMessage} id={chat.id}>
-                Delete
-            </div>;
+            return <img src="paper-bin.png" className={classes.dustbin} onClick={deleteMessage} id={chat.id} />
+
         }
     }
 

@@ -29,7 +29,8 @@ const style = makeStyles(theme => createStyles({
                 width: '80%',
                 display: 'flex',
                 justifyContent: 'center',
-            }
+            },
+            fontSize: '21px'
 
         },
         input: {
@@ -45,7 +46,7 @@ const style = makeStyles(theme => createStyles({
         borderRadius: '5px',
         backgroundColor: 'black',
         color: 'white',
-        width: '100px',
+        width: '150px',
         '&:hover': {
             cursor: 'pointer'
         }
@@ -62,10 +63,14 @@ const style = makeStyles(theme => createStyles({
         padding: '10px 0',
         color: 'black',
         // marginTop: '150px',
-        // alignItems: 'center'
+        // alignItems: 'center',
+        fontFamily: 'monospace',
+        fontSize: '21px'
     },
     error: {
-        color: 'purple'
+        color: 'purple',
+        fontSize: '16px',
+        textAlign: 'center'
     },
     main: {
         width: '80%',
@@ -73,7 +78,7 @@ const style = makeStyles(theme => createStyles({
         margin: 'auto',
         marginTop: '50px',
         alignItems: 'center',
-        padding: '100px 30px',
+        // padding: '100px 30px',
         [theme.breakpoints.down('sm')]: {
             flexDirection: 'column',
             justifyContent: 'center',
@@ -86,7 +91,10 @@ const style = makeStyles(theme => createStyles({
     loginDiv: {
         width: '50%',
         border: '1px solid black',
-        borderRadius: '8px'
+        borderRadius: '8px',
+        [theme.breakpoints.down('sm')]: {
+            marginTop: '10px 0'
+        },
     },
     loginImg: {
         width: '100%'
