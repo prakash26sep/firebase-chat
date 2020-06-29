@@ -144,6 +144,11 @@ const style = makeStyles(theme => createStyles({
     },
     head: {
         color: 'black'
+    },
+    clickToChat: {
+        '&:hover': {
+            cursor: 'pointer'
+        }
     }
 }));
 
@@ -166,11 +171,22 @@ function useChat() {
 function Chat() {
 
     const classes = style();
+    const [toChatEmail, setToChatEmail] = useState('');
+
     const chats = useChat();
+
+    let { id } = useParams();
+    let userEmailid = id.slice(1);
+
+
     let usersList = [];
     chats.map(val => {
-        usersList.push(val.name);
+        if (val.name !== userEmailid)
+            usersList.push(val.name);
     });
+    // usersList.push('prakash26sep@gmail.com')
+    usersList.push('ayush@gmail.com')
+    usersList.push('naman@gmail.com')
     let newUsersList = [...new Set(usersList)]
 
     console.log(newUsersList);
@@ -184,16 +200,16 @@ function Chat() {
 
     const [open, setOpen] = React.useState(false);
 
-    const handleOpen = () => {
+    const handleOpen = (e) => {
         setOpen(true);
-        console.log('Called')
+        setToChatEmail(e.target.id);
+        console.log('');
     };
 
     const handleClose = () => {
         setOpen(false);
     };
-    let { id } = useParams();
-    let userEmailid = id.slice(1);
+
     // let { id} = match.params
     // console.log(userEmailId);
 
@@ -212,7 +228,7 @@ function Chat() {
                 }}>
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <ChatBox email={userEmailid} />
+                        <ChatBox toEmail={toChatEmail} email={userEmailid} />
                     </div>
                 </Fade>
 
@@ -222,21 +238,6 @@ function Chat() {
                 <div className={classes.userid}>Logged User: {userEmailid}</div>
             </div><br />
 
-
-            <div className={classes.centers}>
-                <table id="members">
-                    <tr>
-                        <th>List of Users</th>
-                    </tr>
-
-                    {newUsersList.map(val => {
-                        return <tr>
-                            <td>{val}</td>
-                        </tr>
-                    })}</table>
-
-
-            </div>
 
             <div className={classes.main}>
                 <div className={classes.chatImgDiv}>
@@ -248,9 +249,27 @@ function Chat() {
                         Click to Start Chat
                     </div>
                     <div className={classes.chatDiv}>
-                        <div className={classes.openModal} ><div onClick={handleOpen} className={classes.center}>Start Chatting</div></div>
-                        <div className={classes.totalMsg}>Total Messages: {chats.length}</div>
-                        <div className={classes.unread}>Unread  Messages: {count}</div>
+                        <div className={classes.centers}>
+                            <table id="members">
+                                <thead>
+                                    <tr>
+                                        <th>List of Users</th>
+                                        <th>Total Messages</th>
+                                        <th>Unread Messages</th>
+                                    </tr>
+                                </thead>
+
+                                {newUsersList.map(val => {
+                                    return <tbody>
+                                        <tr>
+                                            <td className={classes.clickToChat} id={val} key={val} onClick={handleOpen}>{val}</td>
+                                            <td>{chats.length}</td>
+                                            <td>{count}</td>
+                                        </tr>
+                                    </tbody>
+                                })}</table>
+
+                        </div>
                         {/* <div className={classes.openModal} >Name: Naman<div onClick={handleOpen} className={classes.center}>Start Chatting</div></div> */}
                     </div>
                 </div>

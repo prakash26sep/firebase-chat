@@ -161,7 +161,6 @@ const style = makeStyles(theme => createStyles({
         }
     }
 
-
 }));
 
 
@@ -198,8 +197,10 @@ function ChatBox(props) {
 
     const classes = style();
     const chats = useChat();
+
     const [message, setMessage] = useState('');
     const email = props.email;
+    const toEmail = props.toEmail;
 
     chats.map((val, index) => {
         if (val.name !== email) {
@@ -221,7 +222,10 @@ function ChatBox(props) {
             message: message,
             time: new Date().toLocaleString(),
             hasRead: false,
+            to: toEmail
         })
+        // console.log("My email: " + email);
+        // console.log("Other user email: " + toEmail);
     }
 
     const blockChat = () => {
@@ -275,39 +279,41 @@ function ChatBox(props) {
 
     const chatting = (chat) => {
 
-        if (chat.name === email) {
+        if ((chat.name === email && chat.to === toEmail) || (chat.to === email && chat.name === toEmail)) {
 
-            return <div key={chat.id} className={classes.chatTwo}>
-                <div className={classes.msg}>
-                    <div>Msg: {chat.message}</div>
-                    <div className={classes.msgRight}>
-                        <div>{checkSeen(chat)}</div>
-                        {checkDelete(chat)}
+            if (chat.name === email) {
 
+                return <div key={chat.id} className={classes.chatTwo}>
+                    <div className={classes.msg}>
+                        <div>Msg: {chat.message}</div>
+                        <div className={classes.msgRight}>
+                            <div>{checkSeen(chat)}</div>
+                            {checkDelete(chat)}
+                        </div>
                     </div>
-                </div>
-                <div className={classes.chatInfo}>
-                    <div>By: {chat.name} </div>
-                    <div className={classes.grey}> Time: {chat.time}</div>
-                </div>
-
-            </div>
-        }
-        else {
-            return <div key={chat.id} className={classes.chatOne}>
-                <div className={classes.msg}>
-                    <div>Msg: {chat.message}</div>
-                    <div className={classes.msgRight}>
-                        <div>{checkSeen(chat)}</div>
-                        {checkDelete(chat)}
+                    <div className={classes.chatInfo}>
+                        <div>By: {chat.name} </div>
+                        <div className={classes.grey}> Time: {chat.time}</div>
                     </div>
-                </div>
-                <div className={classes.chatInfo}>
-                    <div>By: {chat.name} </div>
-                    <div className={classes.grey}> Time: {chat.time}</div>
-                </div>
 
-            </div>
+                </div>
+            }
+            if (chat.to === email) {
+                return <div key={chat.id} className={classes.chatOne}>
+                    <div className={classes.msg}>
+                        <div>Msg: {chat.message}</div>
+                        <div className={classes.msgRight}>
+                            <div>{checkSeen(chat)}</div>
+                            {checkDelete(chat)}
+                        </div>
+                    </div>
+                    <div className={classes.chatInfo}>
+                        <div>By: {chat.name} </div>
+                        <div className={classes.grey}> Time: {chat.time}</div>
+                    </div>
+
+                </div>
+            }
         }
     }
 
@@ -316,7 +322,7 @@ function ChatBox(props) {
         <React.Fragment>
             <div className={classes.chatBoxMain}>
                 <div className={classes.chatHeading}>
-                    <div>Chat</div>
+                    <div>Chat with {toEmail}</div>
                     <div className={classes.block}><div onClick={deleteChat} className={classes.deleteButton}>Delete Chat </div><div id="block" onClick={blockChat} className={classes.blockButton}>Block</div></div>
                 </div>
 
